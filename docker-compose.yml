@@ -1,0 +1,96 @@
+version: '3.9'
+
+services:
+  # ── PostgreSQL ──────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       aimhigher
+      POSTGRES_USER:     aimhigher
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aimhigher"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks: [aimhigher]
+
+  # ── Redis ───────────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --maxmemory 512mb --maxmemory-policy allkeys-lru --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks: [aimhigher]
+
+  # ── Backend ─────────────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis:    { condition: service_healthy }
+    environment:
+      DATABASE_URL:           postgresql://aimhigher:${POSTGRES_PASSWORD}@postgres:5432/aimhigher
+      REDIS_URL:              redis://:${REDIS_PASSWORD}@redis:6379/0
+      SECRET_KEY:             ${SECRET_KEY}
+      ALLOWED_ORIGINS:        '["http://localhost:3000","${FRONTEND_URL}"]'
+      DEBUG:                  "true"
+      # Google Gemini
+      GEMINI_API_KEY:         ${GEMINI_API_KEY}
+      GEMINI_MODEL:           gemini-2.0-flash
+      # Twitter
+      TWITTER_BEARER_TOKEN:   ${TWITTER_BEARER_TOKEN}
+      TWITTER_API_KEY:        ${TWITTER_API_KEY}
+      TWITTER_API_SECRET:     ${TWITTER_API_SECRET}
+      TWITTER_ACCESS_TOKEN:   ${TWITTER_ACCESS_TOKEN}
+      TWITTER_ACCESS_SECRET:  ${TWITTER_ACCESS_SECRET}
+      # Telegram / Discord
+      TELEGRAM_BOT_TOKEN:     ${TELEGRAM_BOT_TOKEN}
+      DISCORD_BOT_TOKEN:      ${DISCORD_BOT_TOKEN}
+      # Onchain
+      MORALIS_API_KEY:        ${MORALIS_API_KEY}
+      COVALENT_API_KEY:       ${COVALENT_API_KEY}
+      # Vector DB
+      PINECONE_API_KEY:       ${PINECONE_API_KEY}
+      PINECONE_ENVIRONMENT:   ${PINECONE_ENVIRONMENT}
+      OPENAI_API_KEY:         ${OPENAI_API_KEY}
+    ports:
+      - "8002:8000"
+    networks: [aimhigher]
+    # Run migrations then start server
+    command: >
+      sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 1"
+
+  # ── Frontend ─────────────────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on: [backend]
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:8000
+      NEXT_PUBLIC_WS_URL:  ws://backend:8000
+    ports:
+      - "3001:3000"
+    networks: [aimhigher]
+
+networks:
+  aimhigher:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:

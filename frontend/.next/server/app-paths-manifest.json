@@ -1,0 +1,14 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/agents/page": "app/agents/page.js",
+  "/landing/page": "app/landing/page.js",
+  "/conversations/page": "app/conversations/page.js",
+  "/knowledge/page": "app/knowledge/page.js",
+  "/page": "app/page.js",
+  "/pipeline/page": "app/pipeline/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/conversations/page": "app/dashboard/conversations/page.js",
+  "/dashboard/agents/page": "app/dashboard/agents/page.js",
+  "/dashboard/knowledge/page": "app/dashboard/knowledge/page.js",
+  "/dashboard/pipeline/page": "app/dashboard/pipeline/page.js"
+}
