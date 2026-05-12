@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
 import useSWR from 'swr'
-import { fetcher, outreachApi, suggestionsApi, Lead, LeadList, Conversation, Message } from '@/lib/api'
+import { fetcher, outreachApi, suggestionsApi, Lead, LeadList, Conversation, Message } from '../../lib/api'
 import { Send, Sparkles, Loader2, MessageCircle, Zap } from 'lucide-react'
 import { format } from 'date-fns'
 import { clsx } from 'clsx'

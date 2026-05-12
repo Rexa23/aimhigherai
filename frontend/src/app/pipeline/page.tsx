@@ -1,12 +1,12 @@
 'use client'
 import useSWR from 'swr'
-import { fetcher, leadsApi, Lead, LeadList, Stage } from '@/lib/api'
+import { fetcher, leadsApi, Lead, LeadList, Stage } from '../../lib/api'
 import { useState } from 'react'
 import Link from 'next/link'
 import { formatDistanceToNow } from 'date-fns'
 import { Filter, Zap, TrendingUp } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { DashboardTopbar } from '@/components/DashboardTopbar'
+import { DashboardTopbar } from '../../components/DashboardTopbar'
 
 const STAGES: { key: Stage; label: string; color: string; description: string }[] = [
   { key: 'discovered', label: 'Discovered', color: '#6366f1', description: 'New projects' },

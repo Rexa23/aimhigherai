@@ -1,13 +1,13 @@
 'use client'
 import useSWR from 'swr'
-import { analyticsApi, hunterApi, Lead, LeadList, DashboardStats } from '@/lib/api'
-import { leadsApi, fetcher } from '@/lib/api'
+import { analyticsApi, hunterApi, Lead, LeadList, DashboardStats } from '../../lib/api'
+import { leadsApi, fetcher } from '../../lib/api'
 import { AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip, BarChart, Bar, LineChart, Line } from 'recharts'
 import { TrendingUp, Users, Zap, Target, RefreshCw, ArrowUpRight, ArrowDownRight, Flame } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { DashboardTopbar } from '@/components/DashboardTopbar'
+import { DashboardTopbar } from '../../components/DashboardTopbar'
 
 const STAGE_ORDER = ['discovered', 'contacted', 'qualified', 'onboarding', 'converted']
 const STAGE_COLOR: Record<string, string> = {

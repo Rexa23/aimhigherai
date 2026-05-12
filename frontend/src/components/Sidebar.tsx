@@ -7,7 +7,7 @@ import {
   LayoutDashboard, Kanban, MessageSquare,
   Bot, BookOpen, Wifi, WifiOff, ChevronRight
 } from 'lucide-react'
-import { useAppStore } from '@/lib/store'
+import { useAppStore } from '../lib/store'
 import { clsx } from 'clsx'
 
 const NAV = [

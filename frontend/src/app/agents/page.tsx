@@ -1,10 +1,10 @@
 'use client'
 import useSWR from 'swr'
-import { fetcher, agentsApi, hunterApi, AgentStatus } from '@/lib/api'
+import { fetcher, agentsApi, hunterApi, AgentStatus } from '../../lib/api'
 import { useState } from 'react'
 import { Activity, Play, Square, Zap, TrendingUp } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { DashboardTopbar } from '@/components/DashboardTopbar'
+import { DashboardTopbar } from '../../components/DashboardTopbar'
 
 const AGENTS: { key: keyof AgentStatus; label: string; description: string; icon: React.FC<any> }[] = [
   {

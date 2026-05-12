@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import '../globals.css'
-import { Sidebar } from '@/components/Sidebar'
-import { DashboardTopbar } from '@/components/DashboardTopbar'
+import { Sidebar } from '../../components/Sidebar'
+import { DashboardTopbar } from '../../components/DashboardTopbar'
 
 export const metadata: Metadata = {
   title: 'Dashboard - AimHigherAI',

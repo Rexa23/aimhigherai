@@ -1,10 +1,10 @@
 'use client'
 import { useState } from 'react'
 import useSWR from 'swr'
-import { fetcher, knowledgeApi } from '@/lib/api'
+import { fetcher, knowledgeApi } from '../../lib/api'
 import { Upload, Search, CheckCircle, Clock, Loader2, X } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { DashboardTopbar } from '@/components/DashboardTopbar'
+import { DashboardTopbar } from '../../components/DashboardTopbar'
 
 interface KnowledgeDoc {
   id: string
